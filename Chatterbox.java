@@ -8,17 +8,35 @@ public class Chatterbox {
 	Scanner scanner = new Scanner(System.in);
 	String message = scanner.nextLine();
 
-	String[] list = new String[100];
+	Task[] list = new Task[100];
         int listCount = 0;
 
 	while (!message.equals("bye")) { 
+
 	    if (message.equals("list")) {
+		System.out.println("Here are the tasks in your list:");
 		for (int i = 0; i < listCount; i++) {
 		    System.out.println((i + 1) + "." + list[i]);
 		}
+
+	    } else if (message.contains("mark")) {
+		String[] parts = message.split("\\s+");
+		    int trueTaskIndex = Integer.parseInt(parts[1]) - 1;
+                    Task trueTask = list[trueTaskIndex];
+    
+                if (parts[0].equals("mark")) {
+		    trueTask.isDone = true;
+		    System.out.println("Nice! I've marked this task as done:");
+		    System.out.println(trueTask);
+		} else if (parts[0].equals("unmark")) {
+		    trueTask.isDone = false;
+		    System.out.println("OK, I've marked this task as not done yet");
+		    System.out.println(trueTask);
+		}
 	    } else { 		
+            Task currentTask = new Task(message);
 	    System.out.println("added: " + message);
-	    list[listCount] = message;
+	    list[listCount] = currentTask;
             listCount++;
 	    }
 	message = scanner.nextLine();
