@@ -33,13 +33,31 @@ public class Chatterbox {
 		    System.out.println("OK, I've marked this task as not done yet");
 		    System.out.println(trueTask);
 		}
-	    } else { 		
-            Task currentTask = new Task(message);
-	    System.out.println("added: " + message);
-	    list[listCount] = currentTask;
-            listCount++;
+	    } else {
+		Task currentTask = null;
+
+		if (message.contains("todo")) {
+                    String[] parts = message.split("\\s", 2);
+		    currentTask = new Todo(parts[1]);
+
+		} else if (message.contains("deadline")) {
+		    String[] parts = message.split("\\s", 2);
+		    currentTask = new Deadline(parts[1]);
+   		} else if (message.contains("event")) {
+		    String[] parts = message.split("/", 3);
+		    String[] taskName = parts[0].split("\\s", 2);
+		    currentTask = new Event(taskName[1], parts[1], parts[2]);
+		}
+
+	    	if (currentTask != null) { 
+		    System.out.println("Got it. I've added this task:");
+	    	    System.out.println(currentTask);
+	            list[listCount] = currentTask;
+            	    listCount++;
+                    System.out.println("Now you have " + listCount + " tasks in the list.");
+	    	}
 	    }
-	message = scanner.nextLine();
+	    message = scanner.nextLine();
 	}
 	System.out.println("Bye. Hope to see you again soon!");
 	scanner.close();	
