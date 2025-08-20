@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Chatterbox {
     public static void main(String[] args) {
@@ -39,12 +41,23 @@ public class Chatterbox {
 		 break;
 		}
 
+             if (message.contains("delete")) {
+                ArrayList<Task> newList = new ArrayList<>(Arrays.asList(list));
+                String[] indexArr = message.split("\\s", 2);
+                int index = Integer.parseInt(indexArr[1]);
+                newList.remove(index - 1);
+                list = newList.toArray(new Task[0]);
+		listCount--;
+		continue;
+	        }
+
+
 	    if (message.equals("list")) {
 		System.out.println("Here are the tasks in your list:");
 		for (int i = 0; i < listCount; i++) {
 		    System.out.println((i + 1) + "." + list[i]);
 		}
-
+		
 	    } else if (message.contains("mark")) {
 		String[] parts = message.split("\\s+");
 		    int trueTaskIndex = Integer.parseInt(parts[1]) - 1;
