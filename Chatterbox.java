@@ -6,12 +6,18 @@ public class Chatterbox {
 	System.out.println("What can I do for you?");
 
 	Scanner scanner = new Scanner(System.in);
-	String message = scanner.nextLine();
 
 	Task[] list = new Task[100];
         int listCount = 0;
 
-	while (!message.equals("bye")) { 
+	while (scanner.hasNextLine()) {
+		String message = scanner.nextLine();
+
+		if (message.equals("bye")) {
+			System.out.println("Bye. Hope to see you again soon!");
+			System.out.flush();
+			break;
+		}
 
 	    if (message.equals("list")) {
 		System.out.println("Here are the tasks in your list:");
@@ -30,36 +36,34 @@ public class Chatterbox {
 		    System.out.println(trueTask);
 		} else if (parts[0].equals("unmark")) {
 		    trueTask.isDone = false;
-		    System.out.println("OK, I've marked this task as not done yet");
+		    System.out.println("OK, I've marked this task as not done yet:");
 		    System.out.println(trueTask);
 		}
 	    } else {
-		Task currentTask = null;
+			Task currentTask = null;
 
-		if (message.contains("todo")) {
-                    String[] parts = message.split("\\s", 2);
-		    currentTask = new Todo(parts[1]);
+			if (message.contains("todo")) {
+				String[] parts = message.split("\\s", 2);
+				currentTask = new Todo(parts[1]);
 
-		} else if (message.contains("deadline")) {
-		    String[] parts = message.split("\\s", 2);
-		    currentTask = new Deadline(parts[1]);
-   		} else if (message.contains("event")) {
-		    String[] parts = message.split("/", 3);
-		    String[] taskName = parts[0].split("\\s", 2);
-		    currentTask = new Event(taskName[1], parts[1], parts[2]);
+			} else if (message.contains("deadline")) {
+				String[] parts = message.split("\\s", 2);
+				currentTask = new Deadline(parts[1]);
+			} else if (message.contains("event")) {
+				String[] parts = message.split("/", 3);
+				String[] taskName = parts[0].split("\\s", 2);
+				currentTask = new Event(taskName[1], parts[1], parts[2]);
+			}
+
+			if (currentTask != null) {
+				System.out.println("Got it. I've added this task:");
+				System.out.println(currentTask);
+				list[listCount] = currentTask;
+				listCount++;
+				System.out.println("Now you have " + listCount + " tasks in the list.");
+			}
 		}
-
-	    	if (currentTask != null) { 
-		    System.out.println("Got it. I've added this task:");
-	    	    System.out.println(currentTask);
-	            list[listCount] = currentTask;
-            	    listCount++;
-                    System.out.println("Now you have " + listCount + " tasks in the list.");
-	    	}
-	    }
-	    message = scanner.nextLine();
 	}
-	System.out.println("Bye. Hope to see you again soon!");
 	scanner.close();	
     }
 }
