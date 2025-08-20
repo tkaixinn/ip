@@ -10,13 +10,33 @@ public class Chatterbox {
 	Task[] list = new Task[100];
         int listCount = 0;
 
+
 	while (scanner.hasNextLine()) {
 		String message = scanner.nextLine();
+	
+	try {
+	     if (message.equals("todo")) {
+	         throw new TodoException("SORRY!!! No empty description for a todo");
+	      }
 
-		if (message.equals("bye")) {
-			System.out.println("Bye. Hope to see you again soon!");
-			System.out.flush();
-			break;
+	     if (message.equals("deadline")) {
+		 throw new DeadlineException("SORRY!!! No empty description for a deadline");
+	     }
+
+	     if (message.equals("event")) {
+		 throw new EventException("SORRY!!! No empty description for an event");
+	     }
+	
+	 } catch (TodoException | DeadlineException |EventException e) {
+	          System.out.println(e.getMessage());
+		  continue;
+ 	 }
+	     
+
+	     if (message.equals("bye")) {
+	         System.out.println("Bye. Hope to see you again soon!");
+		 System.out.flush();
+		 break;
 		}
 
 	    if (message.equals("list")) {
@@ -49,11 +69,19 @@ public class Chatterbox {
 			} else if (message.contains("deadline")) {
 				String[] parts = message.split("\\s", 2);
 				currentTask = new Deadline(parts[1]);
+
 			} else if (message.contains("event")) {
 				String[] parts = message.split("/", 3);
 				String[] taskName = parts[0].split("\\s", 2);
 				currentTask = new Event(taskName[1], parts[1], parts[2]);
-			}
+			} else {
+				try {
+			            throw new NilException("SORRY!!! I don't know what that means");
+				} catch (NilException e) {
+				    System.out.println(e.getMessage());
+				    continue;
+				}    
+			} 
 
 			if (currentTask != null) {
 				System.out.println("Got it. I've added this task:");
