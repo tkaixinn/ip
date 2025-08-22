@@ -11,7 +11,7 @@ public class Chatterbox {
 
 	Task[] list = new Task[100];
         int listCount = 0;
-
+        listCount = Database.loadTasks(list);
 
 	while (scanner.hasNextLine()) {
 		String message = scanner.nextLine();
@@ -48,6 +48,7 @@ public class Chatterbox {
                 newList.remove(index - 1);
                 list = newList.toArray(new Task[0]);
 		listCount--;
+		Database.saveTasks(list, listCount);
 		continue;
 	        }
 
@@ -67,10 +68,12 @@ public class Chatterbox {
 		    trueTask.isDone = true;
 		    System.out.println("Nice! I've marked this task as done:");
 		    System.out.println(trueTask);
+		    Database.saveTasks(list, listCount);
 		} else if (parts[0].equals("unmark")) {
 		    trueTask.isDone = false;
 		    System.out.println("OK, I've marked this task as not done yet:");
 		    System.out.println(trueTask);
+		    Database.saveTasks(list, listCount);
 		}
 	    } else {
 			Task currentTask = null;
@@ -82,11 +85,14 @@ public class Chatterbox {
 			} else if (message.contains("deadline")) {
 				String[] parts = message.split("\\s", 2);
 				currentTask = new Deadline(parts[1]);
+				
 
 			} else if (message.contains("event")) {
-				String[] parts = message.split("/", 3);
-				String[] taskName = parts[0].split("\\s", 2);
-				currentTask = new Event(taskName[1], parts[1], parts[2]);
+				String[] fromParts = message.split("/from", 2);
+				String[] dateParts = fromParts[1].split("/to", 2);
+			        String fromTime = "From: " + dateParts[0].trim();
+                                String toTime = "To: " + dateParts[1].trim();
+				currentTask = new Event(fromParts[0].replaceFirst("event", "").trim(), fromTime, toTime);
 			} else {
 				try {
 			            throw new NilException("SORRY!!! I don't know what that means");
@@ -101,6 +107,7 @@ public class Chatterbox {
 				System.out.println(currentTask);
 				list[listCount] = currentTask;
 				listCount++;
+				Database.saveTasks(list, listCount);
 				System.out.println("Now you have " + listCount + " tasks in the list.");
 			}
 		}

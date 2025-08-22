@@ -1,2 +1,2 @@
-TODO | 1 | help me 
-DEADLINE | 0 | read book  / by Sunday
+EVENT | 1 | project meeting | from 2/12/2019 1800 | to 2/12/2019 2000
+DEADLINE | 0 | meeting  / by 2/12/2019 1700
