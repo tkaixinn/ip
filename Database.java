@@ -6,7 +6,11 @@ public class Database {
     private static final String DATA_PATH = "./data/tasks.txt";
     private static final int MAX_TASKS = 100;
     private static Task[] tasks = new Task[MAX_TASKS];
-    private static int listCount = loadTasks(tasks);    
+    private static int listCount = loadTasks(tasks);  
+
+    public static int getListCount() {
+	return listCount;
+    }  
 
     public static void saveTasks(Task[] list, int listCount) {
         File file = new File(DATA_PATH);
