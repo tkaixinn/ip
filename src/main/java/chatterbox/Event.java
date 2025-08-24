@@ -23,7 +23,7 @@ public class Event extends Task implements Serializable {
 
     @Override
     public String toString() {
-	return "[" + TaskType.EVENT.getDescription() + "]" + super.toString() + "(from: " +  fromDateTime.format(outputFormatter) + " to: "
+	return "[" + TaskType.EVENT.getDescription() + "]" + super.toString() + " (from: " +  fromDateTime.format(outputFormatter) + " to: "
 											  +  toDateTime.format(outputFormatter) + ")";
     }	
 

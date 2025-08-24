@@ -1,4 +1,5 @@
-TODO | 1 | read book
-TODO | 0 | read book
-TODO | 0 | read book
-TODO | 0 | borrow book
+DEADLINE | 0 | read book        /by 2/3/2000 1000
+DEADLINE | 0 | return book      /by 2/3/2000 1000
+DEADLINE | 0 | look at notes    /by 2/3/2000 1000
+TODO | 0 | read book 
+EVENT | 0 | party | from 2/3/2000 1000 | to 4/5/2000 2000
