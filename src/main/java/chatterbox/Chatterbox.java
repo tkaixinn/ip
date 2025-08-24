@@ -1,5 +1,20 @@
 package chatterbox;
 
+/**
+ * Chatterbox is the main class for Chatterbox application.
+ * This handles storage operations, task management and user interactions
+ *
+ * Features:
+ * - Add, delete and manage 3 types of tasks (Todo, Deadline, Event)
+ * - Mark and unmark tasks as done
+ * - Move tasks to storage
+ * - Simple command-line interface for interaction
+ *
+ * Usage:
+ * Run the application and follow the on-screen prompts to carry out tasks
+ * Exceptions are handled, either for invalid input or missing task descriptions
+ */
+
 import java.util.ArrayList;
 public class Chatterbox {
 

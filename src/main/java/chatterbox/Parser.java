@@ -1,5 +1,13 @@
 package chatterbox;
 
+/**
+ * Parser determines the type of command a user entered for Chatterbox
+ *
+ * Features:
+ * - Analyse user input string
+ * - Identify which command it corresponds to
+ */
+
 public class Parser {
 
     public static String getCommandType(String message) {

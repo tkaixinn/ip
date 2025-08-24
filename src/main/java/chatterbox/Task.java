@@ -1,11 +1,27 @@
 package chatterbox;
 
+/**
+ * Abstract class representing generic task in Chatterbox
+ * All task types (Todo, Deadline, Event) extend this class
+ *
+ * Features:
+ * - Store task description
+ * - Track if task is done
+ *
+ */
+
 public abstract class Task {
     protected String description;
     protected boolean isDone;
 
     //Convert src.main.src.main.java.chatterbox.Task -> file line
     public abstract String toFileString();
+
+    /**
+     * Creates Task object from line in data file
+     * @param line Line from the file representing a task
+     * @return A task object or null
+     */
 
     public static Task fromFileString(String line) {
 	String[] parts = line.split(" \\| ");	
@@ -36,6 +52,11 @@ public abstract class Task {
 	    }
         }
 
+    /**
+     * Constructs a Task with given description
+     * @param description Task's description
+     */
+
     public Task(String description) {
 	this.description = description;
 	this.isDone = false;
@@ -44,7 +65,11 @@ public abstract class Task {
     public String getStatusIcon() {
         return (isDone ? "X" : " ");
     }
- 
+
+    /**
+     * Marks task as done
+     */
+
     public void markAsDone() {
 	isDone = true;
     }
