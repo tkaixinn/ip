@@ -1,8 +1,10 @@
+package chatterbox;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.Serializable;
 
-public class Event extends Task implements Serializable { 
+public class Event extends Task implements Serializable {
     private LocalDateTime fromDateTime;
     private LocalDateTime toDateTime;
 
@@ -21,7 +23,7 @@ public class Event extends Task implements Serializable {
 
     @Override
     public String toString() {
-	return "[" + TaskType.EVENT.getDescription() + "]" + super.toString() + "(from: " +  fromDateTime.format(outputFormatter) + " to: "  
+	return "[" + TaskType.EVENT.getDescription() + "]" + super.toString() + "(from: " +  fromDateTime.format(outputFormatter) + " to: "
 											  +  toDateTime.format(outputFormatter) + ")";
     }	
 

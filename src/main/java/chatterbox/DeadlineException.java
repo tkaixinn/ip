@@ -1,4 +1,6 @@
-public class DeadlineException extends Exception { 
+package chatterbox;
+
+public class DeadlineException extends Exception {
     public DeadlineException(String message) { 
 	super(message);
     }

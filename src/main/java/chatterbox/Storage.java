@@ -1,3 +1,5 @@
+package chatterbox;
+
 public class Storage {
 
     public Task[] loadTasks() {
