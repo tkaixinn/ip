@@ -4,6 +4,18 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Database handles storage of tasks for Chatterbox
+ * It provides methods to load tasks from a file and save tasks
+ *
+ * Tasks will be stored in text file at ./data/tasks.txt
+ *
+ * Features:
+ * - Load tasks from storage when application starts
+ * - Saves tasks to storage when task list is updated
+ * - Keep track of current number of tasks in storage
+ */
+
 public class Database {
     private static final String DATA_PATH = "./data/tasks.txt";
     private static final int MAX_TASKS = 100;

@@ -4,12 +4,29 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.Serializable;
 
+
+/**
+ * Represents an Event task in Chatterbox
+ *
+ * Features:
+ * - Store description, start time and end time of event
+ * - Prompt should include a '/from' part with data and time and a /'to' part followed by date and time
+ */
+
 public class Event extends Task implements Serializable {
     private LocalDateTime fromDateTime;
     private LocalDateTime toDateTime;
 
     private static final DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+
+    /**
+     * Constructs an Event task with description, start time and end time
+     *
+     * @param description Task description
+     * @param fromPart String containing start time
+     * @param toPart String containing end time
+     */
 
     public Event(String description, String fromPart, String toPart) { 
 	super(description);

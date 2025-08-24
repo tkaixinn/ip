@@ -3,9 +3,24 @@ package chatterbox;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Represents list of tasks in Chatterbox
+ * Handles adding,deleting, mark/unmarking and displaying tasks
+ *
+ * Features:
+ * - Track current tasks
+ * - Add/delete/unmark tasks
+ */
+
 public class TaskList {
     private Task[] list;
     private int listCount;
+
+    /**
+     * Constructs a TaskList with given tasks and task count
+     * @param list Array of Tasks
+     * @param listCount Number of valid tasks in the array
+     */
 
     public TaskList(Task[] list, int listCount) {
         this.list = list;
@@ -20,10 +35,20 @@ public class TaskList {
         return listCount;
     }
 
+    /**
+     * Adds task to end of the list and increment the task count
+     * @param task Task to add
+     */
+
     public void addTask(Task task) {
         list[listCount] = task;
         listCount++;
     }
+
+    /**
+     * Deletes task at specified index from list and updates task count
+     * @param index Task to delete
+     */
 
     public void deleteTask(int index) {
         ArrayList<Task> newList = new ArrayList<>(Arrays.asList(list));
@@ -32,13 +57,28 @@ public class TaskList {
         listCount--;
     }
 
+    /**
+     * Marks task at specified index as done
+     * @param index Index of task to mark
+     */
+
     public void markTask(int index) {
         list[index].isDone = true;
     }
 
+    /**
+     * Marks task at specified index  (set as undone)
+     * @param index Index of task to unmark
+     */
+
     public void unmarkTask(int index) {
         list[index].isDone = false;
     }
+
+    /**
+     * Prints task in list using Ui object
+     * @param ui Ui object to display messages
+     */
 
     public void printList(Ui ui) {
         ui.showMessage("Here are the tasks in your list:");
