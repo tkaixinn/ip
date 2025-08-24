@@ -1,10 +1,10 @@
-import java.io.Serializable;
+package chatterbox;
 
 public abstract class Task {
     protected String description;
     protected boolean isDone;
 
-    //Convert Task -> file line
+    //Convert src.main.src.main.java.chatterbox.Task -> file line
     public abstract String toFileString();
 
     public static Task fromFileString(String line) {

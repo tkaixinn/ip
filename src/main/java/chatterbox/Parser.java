@@ -1,3 +1,5 @@
+package chatterbox;
+
 public class Parser {
 
     public static String getCommandType(String message) {
