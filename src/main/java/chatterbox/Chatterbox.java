@@ -1,5 +1,6 @@
 package chatterbox;
 
+import java.util.ArrayList;
 public class Chatterbox {
 
     public static void main(String[] args) {
@@ -70,6 +71,22 @@ public class Chatterbox {
                         taskList.unmarkTask(index);
                         ui.showMessage("Task unmarked!");
                         break;
+
+                    case "find":
+                        String findStr = message.split("\\s+", 2)[1];
+                        int bound = taskList.getListCount();
+                        ArrayList<Task> finalList = new ArrayList<>();
+                        for (int i = 0; i < bound; i++) {
+                            if (tasks[i].description.contains(findStr)) {
+                                finalList.add(tasks[i]);
+                            }
+                        }
+                        ui.showMessage("Here are the matching tasks in your list:");
+                        for (int i = 0; i < finalList.size(); i++) {
+                            ui.showMessage((i+1) + ". " + finalList.get(i).toString());
+                        }
+                        break;
+
                     default:
                         throw new NilException("I don't know what that means");
                 }

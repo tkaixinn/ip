@@ -24,7 +24,7 @@ public class Deadline extends Task implements Serializable {
 
     @Override
     public String toFileString() {
-	return "DEADLINE | " + (isDone ? "1" : "0") + " | " + description + " / by " + byDateTime.format(inputFormatter);
+	return "DEADLINE | " + (isDone ? "1" : "0") + " | " + description + " /by " + byDateTime.format(inputFormatter);
     }
 }
   
