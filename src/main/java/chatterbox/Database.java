@@ -1,3 +1,5 @@
+package chatterbox;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,4 +51,3 @@ public class Database {
      return listCount; // return how many tasks were loaded
      }    
 }
-

@@ -1,3 +1,5 @@
+package chatterbox;
+
 public class Chatterbox {
 
     public static void main(String[] args) {

@@ -1,8 +1,10 @@
+package chatterbox;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Deadline extends Task implements Serializable { 
+public class Deadline extends Task implements Serializable {
     public LocalDateTime byDateTime;
 
     private static final DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");

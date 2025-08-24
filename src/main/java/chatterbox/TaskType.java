@@ -1,3 +1,5 @@
+package chatterbox;
+
 public enum TaskType {
     TODO("T"),
     DEADLINE("D"),
