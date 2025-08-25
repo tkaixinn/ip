@@ -26,20 +26,20 @@ public class Deadline extends Task implements Serializable {
      */
 
     public Deadline(String description) {
-	super(description.split("/", 2)[0]);
-	String datePart = description.split("/", 2)[1].replaceFirst("by\\s*", "");
+        super(description.split("/", 2)[0]);
+        String datePart = description.split("/", 2)[1].replaceFirst("by\\s*", "");
         this.byDateTime = LocalDateTime.parse(datePart, inputFormatter);
     } 
 
     @Override 
-    public String toString() { 
-	return "[" + TaskType.DEADLINE.getDescription() + "]" + super.toString() + "(by: " + byDateTime.format(outputFormatter) + ")";
+    public String toString() {
+        return "[" + TaskType.DEADLINE.getDescription() + "]" + super.toString() + "(by: " + byDateTime.format(outputFormatter) + ")";
 
     }
 
     @Override
     public String toFileString() {
-	return "DEADLINE | " + (isDone ? "1" : "0") + " | " + description + " /by " + byDateTime.format(inputFormatter);
+        return "DEADLINE | " + (isDone ? "1" : "0") + " | " + description + " /by " + byDateTime.format(inputFormatter);
     }
 }
   
