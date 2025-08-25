@@ -2,7 +2,6 @@ package chatterbox;
 
 /**
  * Storage handles loading and saving tasks for Chatterbox
- *
  * Features:
  * - Load tasks from storage into memory
  * - Save tasks from memory to storage

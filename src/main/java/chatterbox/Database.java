@@ -23,7 +23,7 @@ public class Database {
     private static int listCount = loadTasks(tasks);  
 
     public static int getListCount() {
-	return listCount;
+        return listCount;
     }  
 
     public static void saveTasks(Task[] list, int listCount) {
@@ -44,8 +44,9 @@ public class Database {
      public static int loadTasks(Task[] list) {
           File file = new File(DATA_PATH);
           int listCount = 0;
-
-          if (!file.exists()) return 0;
+          if (!file.exists()) {
+              return 0;
+          }
 
           try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
               String line;

@@ -28,25 +28,23 @@ public class Event extends Task implements Serializable {
      * @param toPart String containing end time
      */
 
-    public Event(String description, String fromPart, String toPart) { 
-	super(description);
-	
-	String fromStr = fromPart.split("\\s", 2)[1];
-	String toStr = toPart.split("\\s", 2)[1];
-
-	this.fromDateTime = LocalDateTime.parse(fromStr, inputFormatter);
-	this.toDateTime = LocalDateTime.parse(toStr, inputFormatter);
+    public Event(String description, String fromPart, String toPart) {
+        super(description);
+        String fromStr = fromPart.split("\\s", 2)[1];
+        String toStr = toPart.split("\\s", 2)[1];
+        this.fromDateTime = LocalDateTime.parse(fromStr, inputFormatter);
+        this.toDateTime = LocalDateTime.parse(toStr, inputFormatter);
     }
 
     @Override
     public String toString() {
-	return "[" + TaskType.EVENT.getDescription() + "]" + super.toString() + " (from: " +  fromDateTime.format(outputFormatter) + " to: "
+        return "[" + TaskType.EVENT.getDescription() + "]" + super.toString() + " (from: " +  fromDateTime.format(outputFormatter) + " to: "
 											  +  toDateTime.format(outputFormatter) + ")";
     }	
 
     @Override 
     public String toFileString() {
-	return "EVENT | " + (isDone ? "1" : "0") + " | " + description + " | from " + fromDateTime.format(inputFormatter) 
+        return "EVENT | " + (isDone ? "1" : "0") + " | " + description + " | from " + fromDateTime.format(inputFormatter)
 								       + " | to " + toDateTime.format(inputFormatter);
     }
 

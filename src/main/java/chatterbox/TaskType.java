@@ -18,10 +18,10 @@ public enum TaskType {
      */
 
     TaskType(String description) {
-	this.description = description;
+        this.description = description;
     }
 
     public String getDescription() {
-	return description;
+	    return description;
     }
 }
