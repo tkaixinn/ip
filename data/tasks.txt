@@ -1,5 +1,16 @@
-DEADLINE | 0 | read book        /by 2/3/2000 1000
-DEADLINE | 0 | return book      /by 2/3/2000 1000
-DEADLINE | 0 | look at notes    /by 2/3/2000 1000
+DEADLINE | 0 | return book                          /by 2/3/2000 1000
+DEADLINE | 0 | look at notes                        /by 2/3/2000 1000
 TODO | 0 | read book 
 EVENT | 0 | party | from 2/3/2000 1000 | to 4/5/2000 2000
+TODO | 0 | read book
+TODO | 0 | read book
+TODO | 0 | read book
+TODO | 0 | read book
+TODO | 0 | read book
+TODO | 0 | read book
+TODO | 0 | read book
+DEADLINE | 1 | return book      /by 2/12/2009 1800
+EVENT | 0 | s party | from 2/12/2009 1000 | to 2/12/2000 1000
+TODO | 0 | read book
+TODO | 0 | read book
+DEADLINE | 0 |    /by 2/3/2025 1800
