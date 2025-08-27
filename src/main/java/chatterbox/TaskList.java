@@ -77,14 +77,15 @@ public class TaskList {
 
     /**
      * Prints task in list using Ui object
-     * @param ui Ui object to display messages
+
      */
 
-    public void printList(Ui ui) {
-        ui.showMessage("Here are the tasks in your list:");
+    public String printList() {
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 0; i < listCount; i++) {
-            ui.showMessage((i + 1) + ". " + list[i]);
+            sb.append((i + 1) + ". " + list[i] + "\n");
         }
+        return sb.toString().trim();
     }
 }
 
