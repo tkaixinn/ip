@@ -19,6 +19,17 @@ import java.util.ArrayList;
 
 
 public class Chatterbox {
+    // Command keywords
+    private static final String CMD_BYE = "bye";
+    private static final String CMD_LIST = "list";
+    private static final String CMD_TODO = "todo";
+    private static final String CMD_DEADLINE = "deadline";
+    private static final String CMD_EVENT = "event";
+    private static final String CMD_DELETE = "delete";
+    private static final String CMD_MARK = "mark";
+    private static final String CMD_UNMARK = "unmark";
+    private static final String CMD_FIND = "find";
+
     private Ui ui;
     private Storage storage;
     private TaskList taskList;
@@ -41,30 +52,31 @@ public class Chatterbox {
      * @return The response string from Chatterbox
      */
     public String getResponse(String input) {
+
         String commandType = Parser.getCommandType(input);
         try {
             switch (commandType) {
-                case "bye":
+                case CMD_BYE:
                     return "Bye. Hope to see you again soon!";
 
-                case "list":
+                case CMD_LIST:
                     return taskList.printList();
 
-                case "todo":
+                case CMD_TODO:
                     if (input.equals("todo")) throw new TodoException("No empty description for a todo");
                     Todo newTodo = new Todo(input.split(" ", 2)[1]);
                     taskList.addTask(newTodo);
                     return "Got it. I've added this task:\n " + newTodo
                             + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
-                case "deadline":
+                case CMD_DEADLINE:
                     if (input.equals("deadline")) throw new DeadlineException("No empty description for a deadline");
                     Deadline newDeadline = new Deadline(input.split(" ", 2)[1]);
                     taskList.addTask(newDeadline);
                     return "Got it. I've added this task:\n " + newDeadline
                             + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
-                case "event":
+                case CMD_EVENT:
                     if (input.equals("event")) throw new EventException("No empty description for an event");
                     String[] fromParts = input.split("/from", 2);
                     String[] dateParts = fromParts[1].split("/to", 2);
@@ -76,25 +88,25 @@ public class Chatterbox {
                     return "Got it. I've added this task:\n " + newEvent
                             + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
-                case "delete":
+                case CMD_DELETE:
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
                     assert index >= 0 : "Index must be non-negative";
                     taskList.deleteTask(index);
                     return "Task deleted!";
 
-                case "mark":
+                case CMD_MARK:
                     index = Integer.parseInt(input.split(" ")[1]) - 1;
                     assert index >= 0 : "Index must be non-negative";
                     taskList.markTask(index);
                     return "Task marked done!";
 
-                case "unmark":
+                case CMD_UNMARK:
                     index = Integer.parseInt(input.split(" ")[1]) - 1;
                     assert index >= 0 : "Index must be non-negative";
                     taskList.unmarkTask(index);
                     return "Task unmarked!";
 
-                case "find":
+                case CMD_FIND:
                     String findStr = input.split("\\s+", 2)[1];
                     ArrayList<Task> finalList = new ArrayList<>();
                     for (Task t : taskList.getList()) {
