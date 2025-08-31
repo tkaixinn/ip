@@ -90,16 +90,19 @@ public class Chatterbox {
 
                 case CMD_DELETE:
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
+                    assert index >= 0 : "Index must be non-negative";
                     taskList.deleteTask(index);
                     return "Task deleted!";
 
                 case CMD_MARK:
                     index = Integer.parseInt(input.split(" ")[1]) - 1;
+                    assert index >= 0 : "Index must be non-negative";
                     taskList.markTask(index);
                     return "Task marked done!";
 
                 case CMD_UNMARK:
                     index = Integer.parseInt(input.split(" ")[1]) - 1;
+                    assert index >= 0 : "Index must be non-negative";
                     taskList.unmarkTask(index);
                     return "Task unmarked!";
 
