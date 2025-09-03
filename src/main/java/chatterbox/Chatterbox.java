@@ -1,5 +1,7 @@
 package chatterbox;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Stack;
 
 /**
  * Chatterbox is the main class for Chatterbox application.
@@ -29,10 +31,14 @@ public class Chatterbox {
     private static final String CMD_MARK = "mark";
     private static final String CMD_UNMARK = "unmark";
     private static final String CMD_FIND = "find";
+    private static final String CMD_UNDO = "undo";
+
 
     private Ui ui;
     private Storage storage;
     private TaskList taskList;
+    private Stack<TaskList> history = new Stack<>();
+
 
     /**
      * Default constructor: initializes Ui, Storage and TaskList.
@@ -43,6 +49,17 @@ public class Chatterbox {
         Task[] tasks = storage.loadTasks();
         this.taskList = new TaskList(tasks, Database.getListCount());
     }
+
+    /**
+     * Save current state before making a change.
+     */
+    private void saveState() {
+        Task[] copiedList = Arrays.copyOf(taskList.getList(), taskList.getListCount());
+        TaskList snapshot = new TaskList(copiedList, taskList.getListCount());
+        history.push(snapshot);
+    }
+
+
 
     /**
      * Processes a single user input and returns the bot's response.
@@ -63,6 +80,7 @@ public class Chatterbox {
                     return taskList.printList();
 
                 case CMD_TODO:
+                    saveState();
                     if (input.equals("todo")) throw new TodoException("No empty description for a todo");
                     Todo newTodo = new Todo(input.split(" ", 2)[1]);
                     taskList.addTask(newTodo);
@@ -70,6 +88,7 @@ public class Chatterbox {
                             + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
                 case CMD_DEADLINE:
+                    saveState();
                     if (input.equals("deadline")) throw new DeadlineException("No empty description for a deadline");
                     Deadline newDeadline = new Deadline(input.split(" ", 2)[1]);
                     taskList.addTask(newDeadline);
@@ -77,6 +96,7 @@ public class Chatterbox {
                             + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
                 case CMD_EVENT:
+                    saveState();
                     if (input.equals("event")) throw new EventException("No empty description for an event");
                     String[] fromParts = input.split("/from", 2);
                     String[] dateParts = fromParts[1].split("/to", 2);
@@ -89,18 +109,21 @@ public class Chatterbox {
                             + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
                 case CMD_DELETE:
+                    saveState();
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
                     assert index >= 0 : "Index must be non-negative";
                     taskList.deleteTask(index);
                     return "Task deleted!";
 
                 case CMD_MARK:
+                    saveState();
                     index = Integer.parseInt(input.split(" ")[1]) - 1;
                     assert index >= 0 : "Index must be non-negative";
                     taskList.markTask(index);
                     return "Task marked done!";
 
                 case CMD_UNMARK:
+                    saveState();
                     index = Integer.parseInt(input.split(" ")[1]) - 1;
                     assert index >= 0 : "Index must be non-negative";
                     taskList.unmarkTask(index);
@@ -119,6 +142,14 @@ public class Chatterbox {
                         sb.append((i + 1)).append(". ").append(finalList.get(i).toString()).append("\n");
                     }
                     return sb.toString();
+
+                case CMD_UNDO:
+                    if (history.isEmpty()) {
+                        return "Nothing to undo!";
+                    } else {
+                        taskList = history.pop();
+                        return "last action undid!";
+                    }
 
                 default:
                     throw new NilException("I don't know what that means");

@@ -27,6 +27,8 @@ public class Parser {
             return "unmark";
         } else if (message.startsWith("find")) {
             return "find";
+        } else if (message.startsWith("undo")) {
+            return "undo";
         } else {
             return "unknown";
         }
