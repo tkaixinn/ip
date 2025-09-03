@@ -27,4 +27,12 @@ public class Todo extends Task implements Serializable {
     public String toString() {
         return "[" + TaskType.TODO.getDescription() + "]" + super.toString();
     }
+
+    @Override
+    public Task clone() {
+        Todo copy = new Todo(this.description);
+        copy.isDone = this.isDone;
+        return copy;
+    }
+
 }

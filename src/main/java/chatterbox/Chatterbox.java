@@ -54,12 +54,13 @@ public class Chatterbox {
      * Save current state before making a change.
      */
     private void saveState() {
-        Task[] copiedList = Arrays.copyOf(taskList.getList(), taskList.getListCount());
-        TaskList snapshot = new TaskList(copiedList, taskList.getListCount());
+        Task[] snapshotArray = Arrays.stream(taskList.getList())
+                .limit(taskList.getListCount())
+                .map(Task::clone)
+                .toArray(Task[]::new);
+        TaskList snapshot = new TaskList(snapshotArray, taskList.getListCount());
         history.push(snapshot);
     }
-
-
 
     /**
      * Processes a single user input and returns the bot's response.
@@ -148,7 +149,7 @@ public class Chatterbox {
                         return "Nothing to undo!";
                     } else {
                         taskList = history.pop();
-                        return "last action undid!";
+                        return "Last action undid!";
                     }
 
                 default:

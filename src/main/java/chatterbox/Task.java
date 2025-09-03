@@ -16,6 +16,7 @@ public abstract class Task {
 
     public abstract String toFileString();
 
+    public abstract Task clone();
     /**
      * Creates Task object from line in data file
      * @param line Line from the file representing a task

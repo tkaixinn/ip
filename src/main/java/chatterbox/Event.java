@@ -48,5 +48,13 @@ public class Event extends Task implements Serializable {
 								       + " | to " + toDateTime.format(inputFormatter);
     }
 
+    @Override
+    public Task clone() {
+        String fromPart = "From " + fromDateTime.format(inputFormatter);
+        String toPart = "To " + toDateTime.format(inputFormatter);
+        Event copy = new Event(this.description, fromPart, toPart);
+        copy.isDone = this.isDone;
+        return copy;
+    }
 }
 

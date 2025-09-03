@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
  */
 
 
-public class Deadline extends Task implements Serializable {
+public class Deadline extends Task {
     public LocalDateTime byDateTime;
 
     private static final DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
@@ -41,5 +41,13 @@ public class Deadline extends Task implements Serializable {
     public String toFileString() {
         return "DEADLINE | " + (isDone ? "1" : "0") + " | " + description + " /by " + byDateTime.format(inputFormatter);
     }
+
+    @Override
+    public Task clone() {
+        Deadline copy = new Deadline(this.description + " /by " + this.byDateTime.format(inputFormatter));
+        copy.isDone = this.isDone;
+        return copy;
+    }
+
 }
   
