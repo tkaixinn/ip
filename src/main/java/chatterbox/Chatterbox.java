@@ -61,6 +61,22 @@ public class Chatterbox {
         TaskList snapshot = new TaskList(snapshotArray, taskList.getListCount());
         history.push(snapshot);
     }
+    /**
+     * Formats a list of tasks into a numbered string output with a header.
+     * This method uses Java varargs to accept a variable number of Task objects.
+     * This is a helper function to allow case CMD_FIND to work in getResponse()
+     *
+     * @param header A header line to appear before the list of tasks.
+     * @param tasks  Variable number of Task objects to format and include in the output.
+     * @return A single string containing the header and numbered list of tasks, each on a new line.
+     */
+    private String formatTasks(String header, Task... tasks) {
+        StringBuilder sb = new StringBuilder(header + "\n");
+        for (int i = 0; i < tasks.length; i++) {
+            sb.append((i + 1)).append(". ").append(tasks[i]).append("\n");
+        }
+        return sb.toString().trim();
+    }
 
     /**
      * Processes a single user input and returns the bot's response.
@@ -135,16 +151,13 @@ public class Chatterbox {
             case CMD_FIND:
                 String findStr = input.split("\\s+", 2)[1];
                 ArrayList<Task> finalList = new ArrayList<>();
-                for (Task t : taskList.getList()) {
+                for (int i = 0; i < taskList.getListCount(); i++) {
+                    Task t = taskList.getList()[i];
                     if (t.description.contains(findStr)) {
                         finalList.add(t);
-                        }
+                    }
                 }
-                StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
-                for (int i = 0; i < finalList.size(); i++) {
-                    sb.append((i + 1)).append(". ").append(finalList.get(i).toString()).append("\n");
-                }
-                return sb.toString();
+                return formatTasks("Here are the matching tasks in your list:", finalList.toArray(new Task[0]));
 
             case CMD_UNDO:
                 if (history.isEmpty()) {
