@@ -7,7 +7,7 @@ import java.util.Arrays;
  * Represents list of tasks in Chatterbox
  * Handles adding,deleting, mark/unmarking and displaying tasks
  *
- * Features:
+ * Features
  * - Track current tasks
  * - Add/delete/unmark tasks
  */
