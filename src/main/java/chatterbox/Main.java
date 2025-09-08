@@ -34,7 +34,10 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setChatterbox(chatterbox);  // inject the Duke instance
+            MainWindow controller = fxmlLoader.getController();
+            controller.setChatterbox(chatterbox);
+            controller.showWelcome();
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

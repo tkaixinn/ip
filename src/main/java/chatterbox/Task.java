@@ -27,28 +27,28 @@ public abstract class Task {
 	String[] parts = line.split(" \\| ");
 	String type = parts[0];
 	boolean done = parts[1].equals("1");
-        if (parts.length < 3) {
-            System.out.println("Warning: Skipping malformed line: " + line);
-            return null;
-        }
+    if (parts.length < 3) {
+        System.out.println("Warning: Skipping malformed line: " + line);
+        return null;
+    }
 	switch(type) {
 	case "TODO":
 		Task todo = new Todo(parts[2]);
-		    if (done) {
-                todo.markAsDone();
-            }
+        if (done) {
+            todo.markAsDone();
+        }
 		return todo;
 	case "DEADLINE":
         Task deadline = new Deadline(parts[2]);
-		    if (done) {
-                deadline.markAsDone();
-            }
+        if (done) {
+            deadline.markAsDone();
+        }
 		return deadline;
     case "EVENT":
         Task event = new Event(parts[2], parts[3], parts[4]);
-            if (done) {
-                event.markAsDone();
-            }
+        if (done) {
+            event.markAsDone();
+        }
         return event;
     default:
         return null;

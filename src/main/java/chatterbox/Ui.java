@@ -14,6 +14,7 @@ public class Ui {
         System.out.println("What can I do for you?");
     }
 
+
     public void showMessage(String message) {
         System.out.println(message);
     }

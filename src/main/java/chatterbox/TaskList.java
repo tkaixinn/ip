@@ -77,7 +77,6 @@ public class TaskList {
 
     /**
      * Prints task in list using Ui object
-
      */
 
     public String printList() {

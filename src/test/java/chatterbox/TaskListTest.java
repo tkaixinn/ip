@@ -10,8 +10,8 @@ public class TaskListTest {
         try {
             Deadline task1 = new Deadline("read book/by 1/2/2020 1000");
             Todo task2 = new Todo("do chores");
-            Task[] listTask = {task1, task2};
-            TaskList taskList = new TaskList(listTask, 2);
+            Task[] arrayofTask = {task1, task2};
+            TaskList taskList = new TaskList(arrayofTask, 2);
             taskList.markTask(1);
             String expectedStr = "[T][X] do chores";
             assertEquals(expectedStr, taskList.getList()[1].toString());

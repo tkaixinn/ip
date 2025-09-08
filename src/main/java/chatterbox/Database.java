@@ -24,7 +24,15 @@ public class Database {
 
     public static int getListCount() {
         return listCount;
-    }  
+    }
+
+    /**
+     * Saves the given list of tasks to the data file
+     * Each task is written in a line using its file string representation.
+     *
+     * @param list      The array of tasks to save
+     * @param listCount The number of tasks currently in the list
+     */
 
     public static void saveTasks(Task[] list, int listCount) {
         File file = new File(DATA_PATH);
@@ -41,7 +49,15 @@ public class Database {
         }
     }
 
-     public static int loadTasks(Task[] list) {
+    /**
+     * Loads tasks from the data file into the given list.
+     * Tasks are reconstructed from their file string representation.
+     *
+     * @param list The array to populate with loaded tasks
+     * @return The number of tasks successfully loaded into the list
+     */
+
+    public static int loadTasks(Task[] list) {
           File file = new File(DATA_PATH);
           int listCount = 0;
           if (!file.exists()) {
