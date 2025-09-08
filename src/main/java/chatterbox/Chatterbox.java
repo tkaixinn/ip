@@ -74,86 +74,88 @@ public class Chatterbox {
         String commandType = Parser.getCommandType(input);
         try {
             switch (commandType) {
-                case CMD_BYE:
-                    return "Bye. Hope to see you again soon!";
+            case CMD_BYE:
+                return "Bye. Hope to see you again soon!";
 
-                case CMD_LIST:
-                    return taskList.printList();
+            case CMD_LIST:
+                return taskList.printList();
 
-                case CMD_TODO:
-                    saveState();
-                    if (input.equals("todo")) throw new TodoException("No empty description for a todo");
-                    Todo newTodo = new Todo(input.split(" ", 2)[1]);
-                    taskList.addTask(newTodo);
-                    return "Got it. I've added this task:\n " + newTodo
-                            + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
+            case CMD_TODO:
+                saveState();
+                if (input.equals("todo")) throw new TodoException("No empty description for a todo");
+                Todo newTodo = new Todo(input.split(" ", 2)[1]);
+                taskList.addTask(newTodo);
+                return "Got it. I've added this task:\n " + newTodo
+                        + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
-                case CMD_DEADLINE:
-                    saveState();
-                    if (input.equals("deadline")) throw new DeadlineException("No empty description for a deadline");
-                    Deadline newDeadline = new Deadline(input.split(" ", 2)[1]);
-                    taskList.addTask(newDeadline);
-                    return "Got it. I've added this task:\n " + newDeadline
-                            + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
+            case CMD_DEADLINE:
+                saveState();
+                if (input.equals("deadline")) {
+                    throw new DeadlineException("No empty description for a deadline");
+                }
+                Deadline newDeadline = new Deadline(input.split(" ", 2)[1]);
+                taskList.addTask(newDeadline);
+                return "Got it. I've added this task:\n " + newDeadline
+                        + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
-                case CMD_EVENT:
-                    saveState();
-                    if (input.equals("event")) throw new EventException("No empty description for an event");
-                    String[] fromParts = input.split("/from", 2);
-                    String[] dateParts = fromParts[1].split("/to", 2);
-                    String fromTime = "From: " + dateParts[0].trim();
-                    String toTime = "To: " + dateParts[1].trim();
+            case CMD_EVENT:
+                saveState();
+                if (input.equals("event")) throw new EventException("No empty description for an event");
+                String[] fromParts = input.split("/from", 2);
+                String[] dateParts = fromParts[1].split("/to", 2);
+                String fromTime = "From: " + dateParts[0].trim();
+                String toTime = "To: " + dateParts[1].trim();
 
-                    Event newEvent = new Event(fromParts[0].replaceFirst("event", "").trim(), fromTime, toTime);
-                    taskList.addTask(newEvent);
-                    return "Got it. I've added this task:\n " + newEvent
-                            + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
+                Event newEvent = new Event(fromParts[0].replaceFirst("event", "").trim(), fromTime, toTime);
+                taskList.addTask(newEvent);
+                return "Got it. I've added this task:\n " + newEvent
+                        + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
 
-                case CMD_DELETE:
-                    saveState();
-                    int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    assert index >= 0 : "Index must be non-negative";
-                    taskList.deleteTask(index);
-                    return "Task deleted!";
+            case CMD_DELETE:
+                saveState();
+                int index = Integer.parseInt(input.split(" ")[1]) - 1;
+                assert index >= 0 : "Index must be non-negative";
+                taskList.deleteTask(index);
+                return "Task deleted!";
 
-                case CMD_MARK:
-                    saveState();
-                    index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    assert index >= 0 : "Index must be non-negative";
-                    taskList.markTask(index);
-                    return "Task marked done!";
+            case CMD_MARK:
+                saveState();
+                index = Integer.parseInt(input.split(" ")[1]) - 1;
+                assert index >= 0 : "Index must be non-negative";
+                taskList.markTask(index);
+                return "Task marked done!";
 
-                case CMD_UNMARK:
-                    saveState();
-                    index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    assert index >= 0 : "Index must be non-negative";
-                    taskList.unmarkTask(index);
-                    return "Task unmarked!";
+            case CMD_UNMARK:
+                saveState();
+                index = Integer.parseInt(input.split(" ")[1]) - 1;
+                assert index >= 0 : "Index must be non-negative";
+                taskList.unmarkTask(index);
+                return "Task unmarked!";
 
-                case CMD_FIND:
-                    String findStr = input.split("\\s+", 2)[1];
-                    ArrayList<Task> finalList = new ArrayList<>();
-                    for (Task t : taskList.getList()) {
-                        if (t.description.contains(findStr)) {
-                            finalList.add(t);
+            case CMD_FIND:
+                String findStr = input.split("\\s+", 2)[1];
+                ArrayList<Task> finalList = new ArrayList<>();
+                for (Task t : taskList.getList()) {
+                    if (t.description.contains(findStr)) {
+                        finalList.add(t);
                         }
-                    }
-                    StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
-                    for (int i = 0; i < finalList.size(); i++) {
-                        sb.append((i + 1)).append(". ").append(finalList.get(i).toString()).append("\n");
-                    }
-                    return sb.toString();
+                }
+                StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
+                for (int i = 0; i < finalList.size(); i++) {
+                    sb.append((i + 1)).append(". ").append(finalList.get(i).toString()).append("\n");
+                }
+                return sb.toString();
 
-                case CMD_UNDO:
-                    if (history.isEmpty()) {
-                        return "Nothing to undo!";
-                    } else {
-                        taskList = history.pop();
-                        return "Last action undid!";
-                    }
+            case CMD_UNDO:
+                if (history.isEmpty()) {
+                    return "Nothing to undo!";
+                } else {
+                    taskList = history.pop();
+                    return "Last action undid!";
+                }
 
-                default:
-                    throw new NilException("I don't know what that means");
+            default:
+                throw new NilException("I don't know what that means");
             }
         } catch (Exception e) {
             return e.getMessage();
@@ -167,10 +169,10 @@ public class Chatterbox {
      * Keeps prompting the user until "bye" is entered.
      */
     public static void main(String[] args) {
-        Chatterbox cb = new Chatterbox();
         Ui ui = new Ui();
-
+        Chatterbox cb = new Chatterbox();
         ui.showWelcome();
+
 
         while (true) {
             String input = ui.readCommand();

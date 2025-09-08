@@ -25,6 +25,14 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
 
+    private final String LOGO =
+                      "  ____ _             _   _            ____              \n"
+                    + " / ___ | |___  ____ _| |_| |_ ___ _ __| __ ) _____  __   \n"
+                    + "| |    | '_ \\/ _` |_  __/ _ \\ '__|  _ \\ / _ \\ \\/ /  \n"
+                    + "| |___ | | | | (_| | | ||  __/ |  | |_) | (_) >  <   \n"
+                    + " \\____|_| |_|\\__,_|\\__|\\__\\___|_|  |____/ \\___/_/\\_\\  \n"
+                    + "                                                     ";
+
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -49,4 +57,15 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
     }
+
+    public void showWelcome() {
+        dialogContainer.getChildren().add(
+                DialogBox.getDukeDialog(LOGO, dukeImage)
+        );
+
+        dialogContainer.getChildren().add(
+                DialogBox.getDukeDialog("Hello! I'm Chatterbox\nWhat can I do for you?", dukeImage)
+        );
+    }
+
 }
