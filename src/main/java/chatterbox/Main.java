@@ -37,7 +37,7 @@ public class Main extends Application {
             MainWindow controller = fxmlLoader.getController();
             controller.setChatterbox(chatterbox);
             controller.showWelcome();
-
+            stage.setTitle("Chatterbox"); 
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
