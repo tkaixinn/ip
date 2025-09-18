@@ -87,14 +87,10 @@ public class TaskList {
         return sb.toString().trim();
     }
 
-    public Task[] findTasks(String keyword) {
-        ArrayList<Task> results = new ArrayList<>();
-        for (Task t : list) {
-            if (t.getDescription().contains(keyword)) {
-                results.add(t);
-            }
-        }
-        return results.toArray(new Task[0]);
+    public void setTasks(Task[] tasks, int count) {
+        this.list = Arrays.copyOf(tasks, tasks.length);
+        this.listCount = count;
     }
+
 }
 

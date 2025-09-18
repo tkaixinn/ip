@@ -167,7 +167,8 @@ public class CommandHandler {
      */
     public String handleUndo() {
         if (history.isEmpty()) return "Nothing to undo!";
-        taskList = history.pop();
+        TaskList snapshot = history.pop();
+        taskList.setTasks(snapshot.getList(), snapshot.getListCount());
         return "Last action undone!";
     }
 }

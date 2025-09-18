@@ -1,5 +1,5 @@
 TODO | 0 | read book
-TODO | 0 | read book
+TODO | 1 | read book
 TODO | 0 | read book
 TODO | 0 | read book
 TODO | 0 | read book
@@ -15,11 +15,12 @@ TODO | 0 | borrow
 TODO | 0 | read book
 TODO | 0 | read book
 TODO | 0 | jsiof
-DEADLINE | 0 | return book                                 /by 17/9/2025 1800
+DEADLINE | 0 | return book                                           /by 17/9/2025 1800
 TODO | 0 | ergst
 TODO | 0 | red
 TODO | 0 | testing only
 TODO | 0 | test
 TODO | 0 | rieogdsjf
-EVENT | 0 |  | from 5/6/2005 1800 | to 5/7/2007 1200
-DEADLINE | 0 |  /by 6/7/2005 1000
+EVENT | 1 |  | from 5/6/2005 1800 | to 5/7/2007 1200
+DEADLINE | 1 |            /by 6/7/2005 1000
+TODO | 1 | gsjio
