@@ -29,62 +29,35 @@ public class MainWindow extends AnchorPane {
     @FXML
     private Button sendButton;
 
-
     private Chatterbox chatterbox;
-
-
-    // Original avatars
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
-
 
     private final String LOGO =
             "☁️☁️ Chatterbox ☁️⭐\n"
                     + "  Talking from the clouds! ☁️\n"
                     + "  Helping you, one chat at a time ⭐";
-
-
-
-
     @FXML
     public void initialize() {
-        // Load custom Quicksand font
         Font.loadFont(getClass().getResourceAsStream("/fonts/Quicksand-Regular.ttf"), 14);
-
-
-        // Auto-scroll to latest message
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-
-
-        // Chat container styling
         dialogContainer.setSpacing(10);
         dialogContainer.setPadding(new Insets(10));
-        dialogContainer.setBackground(new Background(
-                new BackgroundFill(Color.web("#F3E8FF"), CornerRadii.EMPTY, Insets.EMPTY) // Soft lilac
-        ));
-
-
+        dialogContainer.setBackground(new Background(new BackgroundFill(Color.web("#F3E8FF"),
+                                      CornerRadii.EMPTY, Insets.EMPTY)));
         scrollPane.setFitToWidth(true);
-
-
-        // Text input styling
         userInput.setStyle("-fx-font-family: 'Quicksand'; -fx-font-size: 14px;" +
                 " -fx-background-radius: 10; -fx-border-radius: 10;" +
                 " -fx-border-color: #FFB6C1; -fx-border-width: 2px;");
-
-
-        // Send button styling: pastel coral with paper plane icon
         sendButton.setStyle("-fx-font-family: 'Quicksand'; -fx-font-size: 14px;" +
                 " -fx-background-color: #FF9AA2; -fx-text-fill: white; -fx-background-radius: 10;");
         sendButton.setText("✈️");
     }
 
-
     /** Injects the Chatterbox instance */
     public void setChatterbox(Chatterbox d) {
         chatterbox = d;
     }
-
 
     /** Handle user input */
     @FXML
@@ -93,21 +66,15 @@ public class MainWindow extends AnchorPane {
         String response = chatterbox.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
-        );
+                DialogBox.getDukeDialog(response, dukeImage));
         userInput.clear();
     }
 
-
     public void showWelcome() {
-        dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog(LOGO, dukeImage)
-        );
+        dialogContainer.getChildren().add(DialogBox.getDukeDialog(LOGO, dukeImage));
 
-
-        dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog("Hello! I'm Chatterbox\nWhat can I do for you?", dukeImage)
-        );
+        dialogContainer.getChildren().add(DialogBox.getDukeDialog("Hello! I'm Chatterbox\nWhat can I do for you?",
+                                                                   dukeImage));
     }
 }
 

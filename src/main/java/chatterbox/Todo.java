@@ -1,13 +1,11 @@
 package chatterbox;
 
-import java.io.Serializable;
-
 /**
  * Represents a Todo Task
  * Todo is a task without a specified date or time
  */
 
-public class Todo extends Task implements Serializable {
+public class Todo extends Task  {
 
     /**
      * Constructs a new Todo with given description
@@ -16,7 +14,7 @@ public class Todo extends Task implements Serializable {
 
     public Todo(String description) {
         super(description);
-    } 
+    }
 
     @Override
     public String toFileString() {

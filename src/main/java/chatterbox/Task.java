@@ -80,6 +80,10 @@ public abstract class Task {
 
     public String toString() {
         return "[" + this.getStatusIcon() + "] " + description;
-    }     
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
 }   
  

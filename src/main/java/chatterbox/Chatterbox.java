@@ -1,6 +1,4 @@
 package chatterbox;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -18,10 +16,8 @@ import java.util.Stack;
  * Exceptions are handled, either for invalid input or missing task descriptions
  */
 
-
-
 public class Chatterbox {
-    // Command keywords
+
     private static final String CMD_BYE = "bye";
     private static final String CMD_LIST = "list";
     private static final String CMD_TODO = "todo";
@@ -33,12 +29,11 @@ public class Chatterbox {
     private static final String CMD_FIND = "find";
     private static final String CMD_UNDO = "undo";
 
-
     private Ui ui;
     private Storage storage;
     private TaskList taskList;
     private Stack<TaskList> history = new Stack<>();
-
+    private CommandHandler handler;
 
     /**
      * Default constructor: initializes Ui, Storage and TaskList.
@@ -48,34 +43,7 @@ public class Chatterbox {
         this.storage = new Storage();
         Task[] tasks = storage.loadTasks();
         this.taskList = new TaskList(tasks, Database.getListCount());
-    }
-
-    /**
-     * Save current state before making a change.
-     */
-    private void saveState() {
-        Task[] snapshotArray = Arrays.stream(taskList.getList())
-                .limit(taskList.getListCount())
-                .map(Task::clone)
-                .toArray(Task[]::new);
-        TaskList snapshot = new TaskList(snapshotArray, taskList.getListCount());
-        history.push(snapshot);
-    }
-    /**
-     * Formats a list of tasks into a numbered string output with a header.
-     * This method uses Java varargs to accept a variable number of Task objects.
-     * This is a helper function to allow case CMD_FIND to work in getResponse()
-     *
-     * @param header A header line to appear before the list of tasks.
-     * @param tasks  Variable number of Task objects to format and include in the output.
-     * @return A single string containing the header and numbered list of tasks, each on a new line.
-     */
-    private String formatTasks(String header, Task... tasks) {
-        StringBuilder sb = new StringBuilder(header + "\n");
-        for (int i = 0; i < tasks.length; i++) {
-            sb.append((i + 1)).append(". ").append(tasks[i]).append("\n");
-        }
-        return sb.toString().trim();
+        this.handler = new CommandHandler(taskList, history);
     }
 
     /**
@@ -86,91 +54,33 @@ public class Chatterbox {
      * @return The response string from Chatterbox
      */
     public String getResponse(String input) {
-
         String commandType = Parser.getCommandType(input);
         try {
             switch (commandType) {
             case CMD_BYE:
                 return "Bye. Hope to see you again soon!";
-
             case CMD_LIST:
                 return taskList.printList();
-
             case CMD_TODO:
-                saveState();
-                if (input.equals("todo")) throw new TodoException("No empty description for a todo");
-                Todo newTodo = new Todo(input.split(" ", 2)[1]);
-                taskList.addTask(newTodo);
-                return "Got it. I've added this task:\n " + newTodo
-                        + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
-
+                return handler.handleTodo(input);
             case CMD_DEADLINE:
-                saveState();
-                if (input.equals("deadline")) {
-                    throw new DeadlineException("No empty description for a deadline");
-                }
-                Deadline newDeadline = new Deadline(input.split(" ", 2)[1]);
-                taskList.addTask(newDeadline);
-                return "Got it. I've added this task:\n " + newDeadline
-                        + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
-
+                return handler.handleDeadline(input);
             case CMD_EVENT:
-                saveState();
-                if (input.equals("event")) throw new EventException("No empty description for an event");
-                String[] fromParts = input.split("/from", 2);
-                String[] dateParts = fromParts[1].split("/to", 2);
-                String fromTime = "From: " + dateParts[0].trim();
-                String toTime = "To: " + dateParts[1].trim();
-
-                Event newEvent = new Event(fromParts[0].replaceFirst("event", "").trim(), fromTime, toTime);
-                taskList.addTask(newEvent);
-                return "Got it. I've added this task:\n " + newEvent
-                        + "\nNow you have " + taskList.getListCount() + " tasks in the list.";
-
+                return handler.handleEvent(input);
             case CMD_DELETE:
-                saveState();
-                int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                assert index >= 0 : "Index must be non-negative";
-                taskList.deleteTask(index);
-                return "Task deleted!";
-
+                return handler.handleDelete(input);
             case CMD_MARK:
-                saveState();
-                index = Integer.parseInt(input.split(" ")[1]) - 1;
-                assert index >= 0 : "Index must be non-negative";
-                taskList.markTask(index);
-                return "Task marked done!";
-
+                return handler.handleMark(input);
             case CMD_UNMARK:
-                saveState();
-                index = Integer.parseInt(input.split(" ")[1]) - 1;
-                assert index >= 0 : "Index must be non-negative";
-                taskList.unmarkTask(index);
-                return "Task unmarked!";
-
+                return handler.handleUnmark(input);
             case CMD_FIND:
-                String findStr = input.split("\\s+", 2)[1];
-                ArrayList<Task> finalList = new ArrayList<>();
-                for (int i = 0; i < taskList.getListCount(); i++) {
-                    Task t = taskList.getList()[i];
-                    if (t.description.contains(findStr)) {
-                        finalList.add(t);
-                    }
-                }
-                return formatTasks("Here are the matching tasks in your list:", finalList.toArray(new Task[0]));
-
+                return handler.handleFind(input);
             case CMD_UNDO:
-                if (history.isEmpty()) {
-                    return "Nothing to undo!";
-                } else {
-                    taskList = history.pop();
-                    return "Last action undid!";
-                }
-
+                return handler.handleUndo();
             default:
                 throw new NilException("I don't know what that means");
             }
-        } catch (Exception e) {
+        } catch (TodoException | DeadlineException | EventException | NilException | CommandException e) {
             return e.getMessage();
         } finally {
             storage.saveTasks(taskList.getList(), taskList.getListCount());

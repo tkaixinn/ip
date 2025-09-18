@@ -2,8 +2,6 @@ package chatterbox;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.io.Serializable;
-
 
 /**
  * Represents an Event task in Chatterbox
@@ -13,7 +11,7 @@ import java.io.Serializable;
  * - Prompt should include a '/from' part with data and time and a /'to' part followed by date and time
  */
 
-public class Event extends Task implements Serializable {
+public class Event extends Task {
     private LocalDateTime fromDateTime;
     private LocalDateTime toDateTime;
 

@@ -1,26 +1,23 @@
 package chatterbox;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 /**
  * Database handles storage of tasks for Chatterbox
  * It provides methods to load tasks from a file and save tasks
  *
  * Tasks will be stored in text file at ./data/tasks.txt
- *
- * Features:
- * - Load tasks from storage when application starts
- * - Saves tasks to storage when task list is updated
- * - Keep track of current number of tasks in storage
  */
-
 public class Database {
     private static final String DATA_PATH = "./data/tasks.txt";
     private static final int MAX_TASKS = 100;
     private static Task[] tasks = new Task[MAX_TASKS];
-    private static int listCount = loadTasks(tasks);  
+    private static int listCount = loadTasks(tasks);
 
     public static int getListCount() {
         return listCount;
@@ -33,17 +30,25 @@ public class Database {
      * @param list      The array of tasks to save
      * @param listCount The number of tasks currently in the list
      */
-
     public static void saveTasks(Task[] list, int listCount) {
         File file = new File(DATA_PATH);
+        File parent = file.getParentFile();
+        if (parent != null && !parent.exists()) parent.mkdirs();
+
+        BufferedWriter writer = null;
         try {
-             file.getParentFile().mkdirs();
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                for (int i = 0; i < listCount; i++) {
-                    writer.write(list[i].toFileString());
-                    writer.newLine();
-                }
-            }
+            writer = new BufferedWriter(new FileWriter(file));
+        } catch (IOException e) {
+            e.printStackTrace(); return;
+        }
+
+        for (int i = 0; i < listCount; i++) {
+            try { writer.write(list[i].toFileString()); writer.newLine(); }
+            catch (IOException e) { e.printStackTrace(); }
+        }
+
+        try {
+            if (writer != null) writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,27 +61,34 @@ public class Database {
      * @param list The array to populate with loaded tasks
      * @return The number of tasks successfully loaded into the list
      */
-
     public static int loadTasks(Task[] list) {
-          File file = new File(DATA_PATH);
-          int listCount = 0;
-          if (!file.exists()) {
-              return 0;
-          }
-
-          try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-              String line;
-              while ((line = reader.readLine()) != null && listCount < list.length) {
-                  Task task = Task.fromFileString(line);
-                  if (task != null) {
-                     list[listCount] = task;
-                     listCount++;
-                  }
-              }
-          } catch (IOException e) {
-              e.printStackTrace();
-          }
-
-     return listCount; // return how many tasks were loaded
-     }    
+        File file = new File(DATA_PATH);
+        if (!file.exists()) return 0;
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+        } catch (IOException e) {
+            e.printStackTrace(); return 0;
+        }
+        int count = 0;
+        while (true) {
+            String line = null;
+            try { line = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
+            if (line == null || count >= list.length) {
+                break;
+            }
+            Task task = Task.fromFileString(line);
+            if (task != null) list[count++] = task;
+        }
+        try {
+            if (reader != null) reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 }

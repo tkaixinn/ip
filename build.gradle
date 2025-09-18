@@ -52,12 +52,15 @@ test {
 }
 
 application {
-    mainClass.set("Launcher")
+    mainClass.set("chatterbox.Launcher")
 }
 
 shadowJar {
     archiveBaseName = "chatterbox"
     archiveClassifier = null
+    manifest {
+        attributes 'Main-Class': 'chatterbox.Launcher'
+    }
 }
 
 run{
